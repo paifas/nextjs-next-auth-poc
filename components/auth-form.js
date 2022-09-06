@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
+import { signIn } from 'next-auth/react';
 
 const AuthForm = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isLogin, setIsLogin] = useState(true);
 
-	const submitHandler = () => {};
+	const submitHandler = async e => {
+		e.preventDefault();
+		const result = await signIn('credentials', {
+			redirect: false,
+			email: email,
+			password: password,
+		});
+		console.log(result);
+	};
+
+	const createUser = async () => {};
 
 	return (
 		<form
@@ -73,7 +84,7 @@ const AuthForm = () => {
 					{!isLogin && (
 						<button
 							type="button"
-							onClick={() => {}}
+							onClick={createUser}
 							className="py-2 px-4 w-full font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 						>
 							Create User

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const AuthForm = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isLogin, setIsLogin] = useState(true);
+
+	const router = useRouter();
 
 	const submitHandler = async e => {
 		e.preventDefault();
@@ -13,7 +16,13 @@ const AuthForm = () => {
 			email: email,
 			password: password,
 		});
-		console.log(result);
+
+		if (result.error) {
+			alert(result.error);
+		}
+		if (!result.error) {
+			router.replace('/profile');
+		}
 	};
 
 	const createUser = async () => {};

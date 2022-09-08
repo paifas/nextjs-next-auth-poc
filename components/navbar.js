@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import React from 'react';
+import { useSession, signOut } from 'next-auth/react';
 
 const NavBar = () => {
+	const { data: session, status } = useSession();
+
 	const logout = () => {
-		console.log('logout');
+		signOut();
 	};
 
 	return (
@@ -13,22 +16,26 @@ const NavBar = () => {
 					<Link href="/">Home</Link>
 				</div>
 				<ul className="flex space-x-12">
-					<li className="cursor-pointer hover:text-white py-5 hover:underline">
-						<Link className="text-gray-800" href="/auth">
-							Login
-						</Link>
-					</li>
+					{!session && (
+						<li className="cursor-pointer hover:text-white py-5 hover:underline">
+							<Link className="text-gray-800" href="/auth">
+								Login
+							</Link>
+						</li>
+					)}
 					<li className="cursor-pointer hover:text-white py-5 hover:underline">
 						<Link href="/profile">Profile</Link>
 					</li>
-					<li>
-						<button
-							className="cursor-pointer hover:text-white hover:bg-gray-600 p-5"
-							onClick={logout}
-						>
-							Logout
-						</button>
-					</li>
+					{session && status === 'authenticated' && (
+						<li>
+							<button
+								className="cursor-pointer hover:text-white hover:bg-gray-600 p-5"
+								onClick={logout}
+							>
+								Logout
+							</button>
+						</li>
+					)}
 				</ul>
 			</nav>
 		</header>

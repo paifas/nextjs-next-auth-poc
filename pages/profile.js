@@ -14,6 +14,12 @@ const Profile = ({ roles }) => {
 						<p key={index}>{item}</p>
 					))}
 				</div>
+				<p className="mb-4 mt-4">your tags are:</p>
+				<div>
+					{session.user.tags.map((item, index) => (
+						<p key={index}>{item}</p>
+					))}
+				</div>
 			</div>
 		);
 	}

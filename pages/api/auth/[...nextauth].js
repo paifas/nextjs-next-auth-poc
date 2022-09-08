@@ -22,8 +22,19 @@ export default NextAuth({
 					throw new Error('Invalid credentials');
 				}
 
-				return { email: allowedUser.email };
+				return {
+					email: allowedUser.email,
+					name: 'test user',
+					image: 'http://someurl.com/mypic.jpg',
+					extra: 'i wont appear at session',
+				};
 			},
 		}),
 	],
+	callbacks: {
+		async session({ session, token }) {
+			session.user.tags = ['FE', 'BE', 'FS'];
+			return session;
+		},
+	},
 });
